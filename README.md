@@ -18,8 +18,8 @@ Flutter Web Demo.
 - Bloc used for state Management
 _ bloc_test together with mocktail for bloc testing
 
-##
-![alt text](https://drive.google.com/file/d/1FDLuOfc5df6SmFWFv_TdkBQGbLPHkaAw/view?usp=sharing)
-![alt text](https://drive.google.com/file/d/11n9ecvSLV7_DgYFRfiqxU9yW5JszgGC8/view?usp=sharing)
+
+![Image](https://drive.google.com/file/d/1FDLuOfc5df6SmFWFv_TdkBQGbLPHkaAw/view?usp=sharing)
+
 
 
