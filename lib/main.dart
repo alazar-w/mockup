@@ -53,8 +53,7 @@ class MyApp extends StatelessWidget {
           ],
           child: MaterialApp(
             useInheritedMediaQuery: true,
-            title:
-                "Taskkks",
+            title: "Taskkks",
             theme: ThemeData(
               fontFamily: 'Urbanist',
             ),

@@ -179,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _navBarItem(String title) {
     return AutoSizeText(
-      LocalStrings.localString(string: "appTitle", context: context),
+      LocalStrings.localString(string: title, context: context),
       style: TextStyle(
         color: _themeStyle.primaryTextColor,
         fontWeight: FontWeight.bold,
