@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "interview-mockup-sample"
-  }
+    "default": "interview-mockup-sample",
+    "main": "interview-mockup-sample"
+  },
+  "targets": {},
+  "etags": {}
 }
