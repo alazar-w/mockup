@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
             useInheritedMediaQuery: true,
             title:
-                LocalStrings.localString(string: "appTitle", context: context),
+                "Taskkks",
             theme: ThemeData(
               fontFamily: 'Urbanist',
             ),
