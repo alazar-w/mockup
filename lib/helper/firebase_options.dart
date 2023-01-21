@@ -56,8 +56,7 @@ class DefaultFirebaseOptions {
       storageBucket: "interview-mockup-sample.appspot.com",
       messagingSenderId: "316036708854",
       appId: "1:316036708854:web:f2951b62488be7be82afd7",
-      measurementId: "G-XW4Q8RDYTN"
-  );
+      measurementId: "G-XW4Q8RDYTN");
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: '',

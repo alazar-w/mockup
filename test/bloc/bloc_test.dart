@@ -3,26 +3,33 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:interview_mockup/business/business.dart';
 
+class MockCardItemBloc extends MockBloc<CardItemEvent, int>
+    implements CardItemBloc {}
 
-class MockCardItemBloc extends MockBloc<CardItemEvent, int> implements CardItemBloc {}
 abstract class CardItemEvent {}
 
 class AddCardItemEvent extends CardItemEvent {}
+
 class EditCardItemEvent extends CardItemEvent {}
+
 class ListCardItem extends CardItemEvent {}
+
 class RemoveCardItemEvent extends CardItemEvent {}
 
 class CardItemBloc extends Bloc<CardItemEvent, int> {
   CardItemBloc() : super(0) {
     on<AddCardItemEvent>((event, emit) => emit(state));
-    on<EditCardItemEvent>((event, emit) => emit(state+1));
-    on<ListCardItem>((event, emit) => emit(state+2));
-    on<RemoveCardItemEvent>((event, emit) => emit(state+3));
+    on<EditCardItemEvent>((event, emit) => emit(state + 1));
+    on<ListCardItem>((event, emit) => emit(state + 2));
+    on<RemoveCardItemEvent>((event, emit) => emit(state + 3));
   }
 }
 
-class MockSplashScreenBloc extends MockBloc<SplashScreenEvent, int> implements SplashScreenBloc {}
+class MockSplashScreenBloc extends MockBloc<SplashScreenEvent, int>
+    implements SplashScreenBloc {}
+
 abstract class SplashScreenEvent {}
+
 class AuthenticateUser extends SplashScreenEvent {}
 
 class SplashScreenBloc extends Bloc<SplashScreenEvent, int> {
@@ -35,7 +42,6 @@ void main() {
   //Mock Bloc
   group('CardItemBlocTest', () {
     group('whenListen', () {
-
       test("Let's mock the CardItemBloc's stream!", () {
         // Create Mock CounterBloc Instance
         final bloc = MockCardItemBloc();
@@ -88,14 +94,11 @@ void main() {
       expect: () => const <int>[3],
     );
 
-
     blocTest<SplashScreenBloc, int>(
       'emits [0] when AuthenticateUser is fired',
       build: () => SplashScreenBloc(),
       act: (bloc) => bloc.add(AuthenticateUser()),
       expect: () => const <int>[0],
     );
-
-
   });
 }

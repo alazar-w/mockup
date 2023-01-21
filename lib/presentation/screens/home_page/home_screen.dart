@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late String bottomDropDownValue = bottomDropDownContent.first;
   late String topDropDownValue = topDropDownContent.first;
   late bool showStatus = false;
-
+  late BoxConstraints boxConstraints;
   @override
   void initState() {
     super.initState();
@@ -59,65 +59,141 @@ class _HomeScreenState extends State<HomeScreen> {
     return Material(
       color: _themeStyle.secondaryColor,
       elevation: 2.0,
-      child: CenteredView(
-        child: Column(
-          children: [
-            _navBar(),
-            Expanded(
-                child: Row(
-              children: [
-                // _introduction(),
-                CustomPaint(
-                    painter: CardBackground(),
-                    child: BlocConsumer<CardItemBloc, CardItemState>(
-                      listener: (context, state) {},
-                      builder: (context, state) {
-                        if (state is ListCardItemSuccess) {
-                          for (int i = 0; i < state.cardItem.length; i++) {
-                            styleCards.add(_card(i, state.cardItem[i].source!,
-                                state.cardItem[i].description!));
-                          }
+      child: LayoutBuilder(builder: (context, constraint) {
+        boxConstraints = constraint;
+        return CenteredView(
+          child: Column(
+            children: [
+              _navBar(),
+              Expanded(
+                  child: constraint.maxWidth < 700
+                      ? Column(
+                          children: [
+                            // _introduction(),
 
-                          return SizedBox(
-                            width: 50.w,
-                            child: StackedCardCarousel(
-                              initialOffset: 40,
-                              spaceBetweenItems: 400,
-                              items: styleCards,
-                              applyTextScaleFactor: true,
-                              onPageChanged: (int pageIndex) {
-                                setState(() {
-                                  cardIndex = pageIndex;
-                                  documentId =
-                                      state.cardItem[cardIndex].id.toString();
-                                });
-                              },
+                            Center(
+                              child: _callToAction(),
                             ),
-                          );
-                        } else if (state is CardItemDataLoading) {
-                          return Center(
-                              child: CircularProgressIndicator(
-                            color: _themeStyle.primaryTextColor,
-                          ));
-                        }
+                            Expanded(
+                              child: CustomPaint(
+                                  painter: CardBackground(),
+                                  child:
+                                      BlocConsumer<CardItemBloc, CardItemState>(
+                                    listener: (context, state) {},
+                                    builder: (context, state) {
+                                      if (state is ListCardItemSuccess) {
+                                        for (int i = 0;
+                                            i < state.cardItem.length;
+                                            i++) {
+                                          styleCards.add(_card(
+                                              i,
+                                              state.cardItem[i].source!,
+                                              state.cardItem[i].description!));
+                                        }
 
-                        return _retryButton(
-                            message: "Something Went Wrong,Retry!",
-                            onPressed: () {
-                              BlocProvider.of<CardItemBloc>(context)
-                                  .add(ListCardItem());
-                            });
-                      },
-                    )),
-                Expanded(
-                    child: Center(
-                  child: _callToAction(),
-                ))
-              ],
-            ))
-          ],
-        ),
-      ),
+                                        return SizedBox(
+                                          width: constraint.maxWidth > 700
+                                              ? 50.w
+                                              : 90.w,
+                                          child: StackedCardCarousel(
+                                            initialOffset: 40,
+                                            spaceBetweenItems: 40.h,
+                                            items: styleCards,
+                                            applyTextScaleFactor: true,
+                                            onPageChanged: (int pageIndex) {
+                                              setState(() {
+                                                cardIndex = pageIndex;
+                                                documentId = state
+                                                    .cardItem[cardIndex].id
+                                                    .toString();
+                                              });
+                                            },
+                                          ),
+                                        );
+                                      } else if (state is CardItemDataLoading) {
+                                        return Center(
+                                            child: CircularProgressIndicator(
+                                          color: _themeStyle.primaryTextColor,
+                                        ));
+                                      }
+
+                                      return _retryButton(
+                                          message:
+                                              "Something Went Wrong,Retry!",
+                                          onPressed: () {
+                                            BlocProvider.of<CardItemBloc>(
+                                                    context)
+                                                .add(ListCardItem());
+                                          });
+                                    },
+                                  )),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            // _introduction(),
+                            CustomPaint(
+                                painter: CardBackground(),
+                                child:
+                                    BlocConsumer<CardItemBloc, CardItemState>(
+                                  listener: (context, state) {},
+                                  builder: (context, state) {
+                                    if (state is ListCardItemSuccess) {
+                                      for (int i = 0;
+                                          i < state.cardItem.length;
+                                          i++) {
+                                        styleCards.add(_card(
+                                            i,
+                                            state.cardItem[i].source!,
+                                            state.cardItem[i].description!));
+                                      }
+
+                                      return SizedBox(
+                                        width: constraint.maxWidth > 700
+                                            ? 50.w
+                                            : 90.w,
+                                        child: StackedCardCarousel(
+                                          initialOffset: 40,
+                                          spaceBetweenItems: 50.h,
+                                          items: styleCards,
+                                          applyTextScaleFactor: true,
+                                          onPageChanged: (int pageIndex) {
+                                            setState(() {
+                                              cardIndex = pageIndex;
+                                              documentId = state
+                                                  .cardItem[cardIndex].id
+                                                  .toString();
+                                            });
+                                          },
+                                        ),
+                                      );
+                                    } else if (state is CardItemDataLoading) {
+                                      return Center(
+                                          child: CircularProgressIndicator(
+                                        color: _themeStyle.primaryTextColor,
+                                      ));
+                                    }
+
+                                    return _retryButton(
+                                        message: "Something Went Wrong,Retry!",
+                                        onPressed: () {
+                                          BlocProvider.of<CardItemBloc>(context)
+                                              .add(ListCardItem());
+                                        });
+                                  },
+                                )),
+
+                            Expanded(
+                                child: Center(
+                              child: _callToAction(),
+                            ))
+                          ],
+                        ))
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -179,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _navBarItem(String title) {
     return AutoSizeText(
-      LocalStrings.localString(string: "appTitle", context: context),
+      LocalStrings.localString(string: title, context: context),
       style: TextStyle(
         color: _themeStyle.primaryTextColor,
         fontWeight: FontWeight.bold,
@@ -224,7 +300,6 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadius.circular(55.0),
         ),
         padding: EdgeInsets.all(4.w),
-        width: 50.w,
         child: _cardContent(index, description, source));
   }
 
@@ -397,11 +472,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
           onChanged: (String? value) {
             // This is called when the user selects an item;
-            setState(() {
-              content == "bottom"
-                  ? bottomDropDownValue = value!
-                  : topDropDownValue = value!;
-            });
+            if (value == topDropDownContent.last) {
+            } else {
+              setState(() {
+                content == "bottom"
+                    ? bottomDropDownValue = value!
+                    : topDropDownValue = value!;
+              });
+            }
           },
           items: items.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
@@ -437,7 +515,7 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             : Container(
                 width: 5.w,
-                height: 5.h,
+                height: 5.w,
                 decoration: BoxDecoration(
                     color: _themeStyle.evenDarkColor, shape: BoxShape.circle),
                 child: Center(
@@ -452,6 +530,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+        SizedBox(
+          width: boxConstraints.maxWidth < 700 ? 1.w : 0.w,
+        ),
         AutoSizeText(
           value,
           style: TextStyle(
